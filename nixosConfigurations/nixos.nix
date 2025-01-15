@@ -4,20 +4,19 @@ let
     config = {
       boot = {
         loader = {
-          grub = {
-            devices = [ "/dev/sda" ];
+          systemd-boot = {
             enable = true;
           };
         };
       };
       fileSystems = {
-        "/" = {
-          device = "/dev/sda1";
-          fsType = "ext4";
-        };
         "/boot" = {
           device = "/dev/sda2";
           fsType = "fat32";
+        };
+        "/" = {
+          device = "/dev/sda1";
+          fsType = "ext4";
         };
       };
       networking = {
