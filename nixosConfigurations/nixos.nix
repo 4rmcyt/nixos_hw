@@ -1,4 +1,4 @@
-{ inputs, ... }@flakeContext:
+{ inputs, ... } @flakeContext:
 let
   nixosModule = { config, lib, pkgs, ... }: {
     config = {
@@ -28,12 +28,10 @@ let
           virtualHosts = {
             nixos = {
               default = true;
-              root = ((
-                builtins.fetchTarball {
-                  url = "https://storage.mynixos.com/1499/resources/36039c27-7f93-4a38-ac38-fa4f01717caa/3ef8cd170e51cb28478a49013f62f3b4.jpg.tar.gz";
-                  sha256 = "8lwb9lZSPGLACg9IJtaRGqmcoCffiZ3GxM9MHN0SolY=";
-                }
-              ) + "/3ef8cd170e51cb28478a49013f62f3b4.jpg");
+              root = builtins.fetchTarball {
+                url = "https://storage.mynixos.com/1499/resources/36039c27-7f93-4a38-ac38-fa4f01717caa/3ef8cd170e51cb28478a49013f62f3b4.jpg.tar.gz";
+                sha256 = "8lwb9lZSPGLACg9IJtaRGqmcoCffiZ3GxM9MHN0SolY=";
+              } + "/3ef8cd170e51cb28478a49013f62f3b4.jpg";
             };
           };
         };
@@ -55,14 +53,13 @@ let
       users = {
         extraGroups = {
           nixos = {
-            name = wheel systemd-journal;
+            name = "wheel systemd-journal";
           };
         };
         users = {
           nixos = {
-            hashedPassword = $y$j9T$
-              P1v6RUEKYIfi04PQdHN1r.$.jeqXdBx5L32T60NGZyvU1Q/.sXmDyO/ZOMPVEb3AB/;
-              isNormalUser = true;
+            hashedPassword = "$y$j9T$P1v6RUEKYIfi04PQdHN1r.$.jeqXdBx5L32T60NGZyvU1Q/.sXmDyO/ZOMPVEb3AB/";
+            isNormalUser = true;
           };
         };
       };
