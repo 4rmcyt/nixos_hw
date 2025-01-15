@@ -5,6 +5,9 @@ let
       boot = {
         loader = {
           grub = {
+            devices = [ 
+              "/dev/sda"
+            ];
             enable = true;
           };
         };
