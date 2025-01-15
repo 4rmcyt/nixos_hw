@@ -68,7 +68,7 @@ let
         };
         users = {
           nixos = {
-            hashedPassword = "$y$j9T$mPmbTVPkb3yfG9g5dX8uF0$9f2ijlXN.KuwoVORQlAb5e.o/4nUpBSFC6mPDy6ScX6";
+            pawword = "1990";
             isNormalUser = true;
           };
         };
