@@ -2,6 +2,21 @@
 let
   nixosModule = { config, lib, pkgs, ... }: {
     config = {
+      boot = {
+        loader = {
+          systemd-boot = {
+            enable = true;
+          };
+          default = "systemd-boot";
+        };
+      };
+      fileSystems = {
+        "/" = {
+          device = "/dev/disk/by-partlabel/root";
+          fsType = "ext4";
+          options = [ "defaults" ];
+        };
+      };
       networking = {
         enableIPv6 = true;
         firewall = {
