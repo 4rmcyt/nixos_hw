@@ -2,23 +2,7 @@
 let
   nixosModule = { config, lib, pkgs, ... }: {
     config = {
-      boot = {
-        loader = {
-          systemd-boot = {
-            enable = true;
-          };
-        };
-      };
-      fileSystems = {
-        "/boot" = {
-          device = "/dev/sda2";
-          fsType = "fat32";
-        };
-        "/" = {
-          device = "/dev/sda1";
-          fsType = "ext4";
-        };
-      };
+    boot.kernelPackages = pkgs.linuxPackages_5_15;
       networking = {
         enableIPv6 = true;
         firewall = {
@@ -35,6 +19,15 @@ let
           wheelNeedsPassword = true;
         };
       };
+    virtualisation.vmVariant = {
+    # following configuration is added only when building VM with build-vm
+      virtualisation = {
+        memorySize = 2048; # Use 2048MiB memory.
+        cores = 3;
+        graphics = false;
+      };
+    };
+
       services = {
         fail2ban = {
           enable = true;
@@ -75,7 +68,7 @@ let
         };
         users = {
           nixos = {
-            hashedPassword = "$y$j9T$P1v6RUEKYIfi04PQdHN1r.$.jeqXdBx5L32T60NGZyvU1Q/.sXmDyO/ZOMPVEb3AB/";
+            hashedPassword = "$y$j9T$Re9qbSfnwAT6A15oKUUIp/$/DvuyZzBWr9NV7fMi2T.ZmoeCgkjmYJ.30ydcrm5jB7";
             isNormalUser = true;
           };
         };
