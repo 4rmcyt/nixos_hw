@@ -3,35 +3,24 @@ let
   nixosModule = { config, lib, pkgs, ... }: {
     config = {
       boot = {
-        growPartition = true;
-        kernelParams = [ "console=ttyS0" ];
-        loader.grub = {
-          device = lib.mkDefault (
-            if (hasNoFsPartition || supportBios) then
+        loader = {
+          grub = {
+            devices = [ 
               "/dev/sda"
-            else
-              "nodev"
-          );
-          efiSupport = lib.mkDefault supportEfi;
-          efiInstallAsRemovable = lib.mkDefault supportEfi;
+            ];
+            enable = true;
+          };
         };
-
-        loader.timeout = 0;
-        initrd.availableKernelModules = [
-          "uas"
-          "virtio_blk"
-          "virtio_pci"
-        ];
       };
-
-      fileSystems."/" = {
-        device = "/dev/disk/by-label/nixos";
-        autoResize = true;
-        fsType = "ext4";
-      };
-      fileSystems."/boot" = lib.mkIf hasBootPartition {
-        device = "/dev/disk/by-label/ESP";
-        fsType = "vfat";
+      fileSystems = {
+        "/" = {
+          device = "/dev/dev/sda1";
+          fsType = "ext4";
+        };
+        "/boot" = {
+          device = "/dev/sda2";
+          fsType = "fat32";
+        };
       };
       networking = {
         enableIPv6 = true;
