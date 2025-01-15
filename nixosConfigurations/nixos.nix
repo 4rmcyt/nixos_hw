@@ -4,19 +4,19 @@ let
     config = {
       boot = {
         loader = {
-          systemd-boot = {
+          grub = {
             enable = true;
           };
         };
       };
       fileSystems = {
         "/" = {
-          device = "/dev/disk/by-label/nixos";
+          device = "/dev/dev/sda1";
           fsType = "ext4";
         };
         "/boot" = {
-          device = "/dev/disk/by-label/boot";
-          fsType = "vfat";
+          device = "/dev/sda2";
+          fsType = "fat32";
         };
       };
       networking = {
