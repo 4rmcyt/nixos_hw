@@ -10,13 +10,13 @@ let
         };
       };
       fileSystems = {
-        "/boot" = {
-          device = "/dev/sda2";
-          fsType = "fat32";
-        };
         "/" = {
-          device = "/dev/sda1";
+          device = "/dev/disk/by-label/nixos";
           fsType = "ext4";
+        };
+        "/boot" = {
+          device = "/dev/disk/by-label/boot";
+          fsType = "vfat";
         };
       };
       networking = {
