@@ -8,9 +8,6 @@ let
         loader.grub = {
           device = lib.mkDefault (
             if (hasNoFsPartition || supportBios) then
-              # Even if there is a separate no-fs partition ("/dev/disk/by-partlabel/no-fs" i.e. "/dev/vda2"),
-              # which will be used the bootloader, do not set it as loader.grub.device.
-              # GRUB installation fails, unless the whole disk is selected.
               "/dev/sda"
             else
               "nodev"
