@@ -62,6 +62,7 @@ let
       system = {
         autoUpgrade = {
           enable = true;
+          stateVersion = "24.11";
         };
       };
       users = {
