@@ -69,7 +69,7 @@ let
         users = {
           nixos = {
             isNormalUser = true;
-            password = "1990";
+            password = "nixos";
           };
         };
       };
