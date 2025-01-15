@@ -5,16 +5,14 @@ let
       boot = {
         loader = {
           grub = {
-            devices = [ 
-              "/dev/sda"
-            ];
+            devices = [ "/dev/sda" ];
             enable = true;
           };
         };
       };
       fileSystems = {
         "/" = {
-          device = "/dev/dev/sda1";
+          device = "/dev/sda1";
           fsType = "ext4";
         };
         "/boot" = {
