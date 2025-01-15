@@ -1,24 +1,7 @@
-{ inputs, ... } @flakeContext:
+{ inputs, ... }@flakeContext:
 let
   nixosModule = { config, lib, pkgs, ... }: {
     config = {
-      boot = {
-        loader = {
-          systemd-boot = {
-            enable = true;
-          };
-        };
-      };
-      fileSystems = {
-        "/boot" = {
-          device = "/dev/sda2";
-          fsType = "fat32";
-        };
-        "/" = {
-          device = "/dev/sda1";
-          fsType = "ext4";
-        };
-      };
       networking = {
         enableIPv6 = true;
         firewall = {
@@ -45,36 +28,41 @@ let
           virtualHosts = {
             nixos = {
               default = true;
-              root = builtins.fetchTarball {
-                url = "https://storage.mynixos.com/1499/resources/36039c27-7f93-4a38-ac38-fa4f01717caa/3ef8cd170e51cb28478a49013f62f3b4.jpg.tar.gz";
-                sha256 = "8lwb9lZSPGLACg9IJtaRGqmcoCffiZ3GxM9MHN0SolY=";
-              } + "/3ef8cd170e51cb28478a49013f62f3b4.jpg";
+              root = ((
+                builtins.fetchTarball {
+                  url = "https://storage.mynixos.com/1499/resources/36039c27-7f93-4a38-ac38-fa4f01717caa/3ef8cd170e51cb28478a49013f62f3b4.jpg.tar.gz";
+                  sha256 = "8lwb9lZSPGLACg9IJtaRGqmcoCffiZ3GxM9MHN0SolY=";
+                }
+              ) + "/3ef8cd170e51cb28478a49013f62f3b4.jpg");
             };
           };
         };
         openssh = {
           enable = true;
           settings = {
-            AllowUsers = [ "nixos" ];
+            AllowUsers = [
+              "nixos"
+            ];
           };
         };
       };
       system = {
         autoUpgrade = {
           enable = true;
-          stateVersion = "24.11";
         };
+        stateVersion = "24.11";
       };
       users = {
         extraGroups = {
           nixos = {
-            name = "wheel systemd-journal";
+            name = wheel systemd-journal;
           };
         };
         users = {
           nixos = {
-            hashedPassword = "$y$j9T$P1v6RUEKYIfi04PQdHN1r.$.jeqXdBx5L32T60NGZyvU1Q/.sXmDyO/ZOMPVEb3AB/";
-            isNormalUser = true;
+            hashedPassword = $y$j9T$
+              P1v6RUEKYIfi04PQdHN1r.$.jeqXdBx5L32T60NGZyvU1Q/.sXmDyO/ZOMPVEb3AB/;
+              isNormalUser = true;
           };
         };
       };
@@ -82,6 +70,8 @@ let
   };
 in
 inputs.nixpkgs.lib.nixosSystem {
-  modules = [ nixosModule ];
+  modules = [
+    nixosModule
+  ];
   system = "x86_64-linux";
 }
