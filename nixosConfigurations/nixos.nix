@@ -7,14 +7,16 @@ let
           systemd-boot = {
             enable = true;
           };
-          default = "systemd-boot";
         };
       };
       fileSystems = {
+        "/boot" = {
+          device = "/dev/sda2";
+          fsType = "fat32";
+        };
         "/" = {
-          device = "/dev/disk/by-partlabel/root";
+          device = "/dev/sda1";
           fsType = "ext4";
-          options = [ "defaults" ];
         };
       };
       networking = {
