@@ -3,24 +3,38 @@ let
   nixosModule = { config, lib, pkgs, ... }: {
     config = {
       boot = {
-        loader = {
-          grub = {
-            devices = [ 
+        growPartition = true;
+        kernelParams = [ "console=ttyS0" ];
+        loader.grub = {
+          device = lib.mkDefault (
+            if (hasNoFsPartition || supportBios) then
+              # Even if there is a separate no-fs partition ("/dev/disk/by-partlabel/no-fs" i.e. "/dev/vda2"),
+              # which will be used the bootloader, do not set it as loader.grub.device.
+              # GRUB installation fails, unless the whole disk is selected.
               "/dev/sda"
-            ];
-            enable = true;
-          };
+            else
+              "nodev"
+          );
+          efiSupport = lib.mkDefault supportEfi;
+          efiInstallAsRemovable = lib.mkDefault supportEfi;
         };
+
+        loader.timeout = 0;
+        initrd.availableKernelModules = [
+          "uas"
+          "virtio_blk"
+          "virtio_pci"
+        ];
       };
-      fileSystems = {
-        "/" = {
-          device = "/dev/dev/sda1";
-          fsType = "ext4";
-        };
-        "/boot" = {
-          device = "/dev/sda2";
-          fsType = "fat32";
-        };
+
+      fileSystems."/" = {
+        device = "/dev/disk/by-label/nixos";
+        autoResize = true;
+        fsType = "ext4";
+      };
+      fileSystems."/boot" = lib.mkIf hasBootPartition {
+        device = "/dev/disk/by-label/ESP";
+        fsType = "vfat";
       };
       networking = {
         enableIPv6 = true;
