@@ -68,8 +68,8 @@ let
         };
         users = {
           nixos = {
-            pawword = "1990";
             isNormalUser = true;
+            password = "1990";
           };
         };
       };
